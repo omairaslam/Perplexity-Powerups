@@ -28,3 +28,8 @@
 .perplexity-enhanced-button[title*="Rich Text"]:hover svg {
   color: #059669; /* Darker green on hover */
 }
+
+/* Ensure proper spacing when positioned next to copy button */
+.perplexity-enhanced-button[title*="Rich Text"] {
+  margin-left: 0; /* Remove any default margin since we're positioning directly */
+}

@@ -91,10 +91,16 @@
     if (toolbarElement.dataset.richCopyAdded === 'true') return;
     toolbarElement.dataset.richCopyAdded = 'true';
 
+    // Find the original copy button to position our button right next to it
+    const originalCopyButton = toolbarElement.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
+    if (!originalCopyButton) {
+      console.log('Perplexity Enhanced: Could not find original copy button for positioning');
+      return;
+    }
+
     const copyRichButton = document.createElement('button');
-    copyRichButton.className = toolbarElement.querySelector('button')?.className || 'perplexity-enhanced-button';
+    copyRichButton.className = originalCopyButton.className || 'perplexity-enhanced-button';
     copyRichButton.type = 'button';
-    copyRichButton.style.marginLeft = '8px';
     copyRichButton.title = 'Copy as Rich Text (without citations)';
 
     // Create dollar icon SVG
@@ -132,7 +138,8 @@
       }).catch(err => console.error('Failed to copy rich text:', err));
     });
 
-    toolbarElement.appendChild(copyRichButton);
+    // Insert the dollar button immediately after the original copy button
+    originalCopyButton.parentNode.insertBefore(copyRichButton, originalCopyButton.nextSibling);
   }
 
   // --- MAIN OBSERVER & EXECUTION LOGIC ---
