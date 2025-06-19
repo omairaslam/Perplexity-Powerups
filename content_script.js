@@ -192,6 +192,69 @@
 
     // Insert the dollar button immediately after the original copy button
     originalCopyButton.parentNode.insertBefore(copyRichButton, originalCopyButton.nextSibling);
+
+    // Add the "$C" button for copying WITH citations
+    addRichCopyWithCitationsButton(toolbarElement, copyRichButton);
+  }
+
+  function addRichCopyWithCitationsButton(toolbarElement, previousButton) {
+    if (toolbarElement.dataset.richCopyWithCitationsAdded === 'true') return;
+
+    // Additional check to prevent duplicates - look for existing "$C" buttons
+    const existingCitationButton = toolbarElement.querySelector('button[data-perplexity-powerups-button="rich-copy-citations"]') ||
+                                  toolbarElement.querySelector('button[title*="Rich Text (with citations)"]');
+    if (existingCitationButton) {
+      console.log('Perplexity Powerups: Rich copy with citations button already exists, skipping');
+      return;
+    }
+
+    toolbarElement.dataset.richCopyWithCitationsAdded = 'true';
+
+    const copyRichWithCitationsButton = document.createElement('button');
+    copyRichWithCitationsButton.className = previousButton.className || 'perplexity-enhanced-button';
+    copyRichWithCitationsButton.type = 'button';
+    copyRichWithCitationsButton.title = 'Copy as Rich Text (with citations)';
+    copyRichWithCitationsButton.dataset.perplexityPowerupsButton = 'rich-copy-citations'; // Unique identifier
+
+    // Create "$C" icon SVG - dollar sign with "C" overlay
+    copyRichWithCitationsButton.innerHTML = `
+      <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          <circle cx="18" cy="6" r="3" fill="currentColor" stroke="none"></circle>
+          <text x="18" y="8" text-anchor="middle" font-size="6" fill="white" font-weight="bold">C</text>
+        </svg>
+      </div>
+    `;
+
+    copyRichWithCitationsButton.addEventListener('click', () => {
+      const mainResponseContainer = toolbarElement.closest('div[class*="border-b"]');
+      if (!mainResponseContainer) return alert('Copy Rich with Citations: Could not find main response container.');
+
+      const proseElement = mainResponseContainer.querySelector('div[class*="prose"]');
+      if (!proseElement) return alert('Copy Rich with Citations: Could not find content to copy.');
+
+      // Copy content WITHOUT cleaning citations - preserve original formatting
+      const originalHtml = proseElement.innerHTML;
+      const blob = new Blob([originalHtml], { type: 'text/html' });
+      const clipboardItem = new ClipboardItem({ 'text/html': blob });
+
+      navigator.clipboard.write([clipboardItem]).then(() => {
+        const originalContent = copyRichWithCitationsButton.innerHTML;
+        copyRichWithCitationsButton.innerHTML = `
+          <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20,6 9,17 4,12"></polyline>
+            </svg>
+          </div>
+        `;
+        setTimeout(() => { copyRichWithCitationsButton.innerHTML = originalContent; }, 2000);
+      }).catch(err => console.error('Failed to copy rich text with citations:', err));
+    });
+
+    // Insert the "$C" button immediately after the "$" button
+    previousButton.parentNode.insertBefore(copyRichWithCitationsButton, previousButton.nextSibling);
   }
 
   // --- MAIN OBSERVER & EXECUTION LOGIC ---
@@ -232,6 +295,7 @@
 
       // Skip if already has rich copy buttons
       if (toolbar.querySelector('button[data-perplexity-powerups-button="rich-copy"]') ||
+          toolbar.querySelector('button[data-perplexity-powerups-button="rich-copy-citations"]') ||
           toolbar.querySelector('button[title*="Rich Text"]')) {
         return;
       }

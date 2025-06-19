@@ -19,12 +19,21 @@
 }
 
 /* Dollar icon specific styling */
-.perplexity-enhanced-button[title*="Rich Text"] svg {
+.perplexity-enhanced-button[title*="Rich Text (without citations)"] svg {
   color: #10b981; /* Green color for dollar icon */
 }
 
-.perplexity-enhanced-button[title*="Rich Text"]:hover svg {
+.perplexity-enhanced-button[title*="Rich Text (without citations)"]:hover svg {
   color: #059669; /* Darker green on hover */
+}
+
+/* Dollar with C icon specific styling */
+.perplexity-enhanced-button[title*="Rich Text (with citations)"] svg {
+  color: #f59e0b; /* Amber color for dollar-C icon */
+}
+
+.perplexity-enhanced-button[title*="Rich Text (with citations)"]:hover svg {
+  color: #d97706; /* Darker amber on hover */
 }
 
 /* Ensure proper spacing when positioned next to copy button */
