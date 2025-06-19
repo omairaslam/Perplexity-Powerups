@@ -1,19 +1,42 @@
-# perplexity.powerup
-A chrome extension that provides much needed powerups to Perplexity
+# Perplexity Powerups
+A Chrome extension that provides essential powerups to enhance your Perplexity.ai experience
 
 ## Features
 
 This Chrome extension enhances your Perplexity.ai experience with two main features:
 
-1.  **Mermaid.js Graph Rendering**:
-    *   Automatically detects and renders Mermaid code blocks (e.g., ` ```mermaid ... ``` `) within Perplexity responses as interactive SVG diagrams.
-    *   **Toggle View**: Provides a "Show Code" / "Show Graph" button for each diagram, allowing users to easily switch between viewing the rendered graph and the raw Mermaid code block.
-    *   **Copy Graph Image**: Adds a "Copy Graph" button that copies the rendered diagram to the clipboard as a PNG image, suitable for pasting into documents or image editors.
-    *   Adds an "Open in Mermaid.live" link below each rendered graph, allowing users to easily view, edit, and share the diagram in the official online editor.
+### 1. **Mermaid.js Code Block Enhancement**
+*   **Smart Detection**: Automatically detects Mermaid code blocks in Perplexity responses by analyzing code content for Mermaid keywords (`mermaid`, `graph`, `flowchart`, `sequencediagram`, `gantt`, `pie`, `classdiagram`, `erdiagram`, `statediagram`)
+*   **Mermaid.live Integration**: Adds an "Open in Mermaid.live Editor" link below detected Mermaid code blocks
+*   **Advanced URL Encoding**: Uses proper JSON-based Base64 encoding to ensure complex diagrams work correctly in Mermaid.live
+*   **Seamless Integration**: Links appear automatically without replacing the original code blocks, preserving Perplexity's native interface
 
-2.  **"Copy as Rich Text" Button**:
-    *   Adds a "Copy Rich" button next to Perplexity's native "Copy" button in the response toolbars.
-    *   When clicked, copies the main content of the Perplexity response to the clipboard as HTML (rich text). This allows pasting into applications like Google Docs, Word, or email clients while attempting to preserve formatting like headings, lists, bold/italic text, etc.
+### 2. **Enhanced Rich Text Copy with Citation Removal**
+*   **Smart Copy Button**: Adds a distinctive dollar sign ($) icon button next to Perplexity's native copy button in response toolbars
+*   **Citation Cleaning**: Automatically removes citation references (e.g., [1], [2], etc.) and source links when copying
+*   **Rich Text Preservation**: Copies content as HTML to preserve formatting (headings, lists, bold/italic text, etc.) when pasting into rich text editors
+*   **Clean Content**: Removes superscript citations, source sections, and reference elements for cleaner copied content
+*   **Visual Feedback**: Button shows a checkmark animation when copy is successful
+*   **Optimized for Productivity**: Perfect for pasting into Google Docs, Word, email clients, or other rich text applications
+
+## Technical Implementation
+
+### Architecture
+- **Manifest Version**: 3 (latest Chrome extension standard)
+- **Content Script**: Runs on all `*.perplexity.ai/*` pages
+- **Permissions**: `activeTab`, `scripting`, `clipboardWrite`
+- **Dependencies**: Includes `marked.min.js` library for enhanced text processing
+
+### Key Components
+- **`manifest.json`**: Extension configuration and permissions
+- **`content_script.js`**: Main functionality with DOM manipulation and event handling
+- **`styles.css`**: Custom styling for enhanced UI elements
+- **`popup.html`**: Simple popup interface for extension status
+- **`lib/marked.min.js`**: Markdown processing library
+- **`icons/`**: Extension icons in multiple sizes (16px, 48px, 128px)
+
+### Smart Detection Logic
+The extension uses intelligent content analysis to identify Mermaid diagrams by checking for specific keywords in code blocks, ensuring accurate detection without false positives.
 
 ## Setup Guide: How to Install
 
@@ -22,7 +45,7 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 **Prerequisites:**
 
 *   **Google Chrome:** Ensure you have Google Chrome browser installed.
-*   **Extension Files:** You'll need the folder containing all the extension files (`manifest.json`, `content_script.js`, `styles.css`, `lib/` folder, `icons/` folder, `popup.html`). Download these files from this repository (e.g., by clicking the green "Code" button and then "Download ZIP", then extracting the ZIP). Let's call the main folder `perplexity-enhanced-extension` (or `perplexity.powerup-main` if you download the ZIP).
+*   **Extension Files:** You'll need the folder containing all the extension files (`manifest.json`, `content_script.js`, `styles.css`, `lib/` folder, `icons/` folder, `popup.html`). Download these files from this repository (e.g., by clicking the green "Code" button and then "Download ZIP", then extracting the ZIP). Let's call the main folder `perplexity-powerups` (or `Perplexity-Powerups-main` if you download the ZIP).
 
 **Installation Steps:**
 
@@ -48,14 +71,36 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 
 5.  **Test the Extension:**
     *   Open or refresh a tab with `https://www.perplexity.ai/`.
-    *   **For Mermaid Rendering:**
-        *   Ask Perplexity a question that should return a Mermaid diagram (e.g., "Draw a flowchart for making tea using Mermaid syntax").
-        *   Look for the Mermaid code block to be replaced by a rendered diagram.
-        *   Check for the "Open in Mermaid.live" link below the diagram.
-    *   **For Rich Text Copy:**
-        *   After Perplexity generates a response, hover over or focus on the response to make the action buttons appear.
-        *   You should see a "Copy Rich" button next to Perplexity's standard "Copy" button.
-        *   Click it, then try pasting into a rich text editor (like Google Docs, Word, or an email composer) to see if the formatting is preserved.
+    *   **For Mermaid Enhancement:**
+        *   Ask Perplexity a question that should return a Mermaid diagram (e.g., "Create a flowchart for making tea using Mermaid syntax" or "Draw a sequence diagram showing user login process").
+        *   Look for the "Open in Mermaid.live Editor" link that appears below Mermaid code blocks.
+        *   Click the link to verify it opens the diagram correctly in Mermaid.live with proper encoding.
+    *   **For Enhanced Rich Text Copy:**
+        *   After Perplexity generates a response with citations, hover over or focus on the response to make the action buttons appear.
+        *   You should see a dollar sign ($) icon button next to Perplexity's standard copy button.
+        *   Click the dollar icon button, then paste into a rich text editor (like Google Docs, Word, or an email composer).
+        *   Verify that formatting is preserved and citations/source references are automatically removed.
+
+## Advanced Features & Implementation Details
+
+### Mermaid Integration
+- **Smart Content Detection**: Uses keyword analysis to identify Mermaid diagrams (`graph`, `flowchart`, `sequencediagram`, `gantt`, `pie`, `classdiagram`, `erdiagram`, `statediagram`)
+- **Robust URL Encoding**: Implements proper JSON-based Base64 encoding for complex diagrams
+- **Non-Intrusive Design**: Adds links without modifying original code blocks
+- **Error Prevention**: Includes duplicate link prevention and proper DOM manipulation
+
+### Rich Text Copy Enhancement
+- **Citation Removal**: Automatically strips citation references `[1]`, `[2]`, etc.
+- **Source Link Cleaning**: Removes source sections and reference elements
+- **Visual Design**: Uses distinctive dollar sign ($) icon with green color scheme
+- **Feedback System**: Provides visual confirmation with checkmark animation
+- **HTML Preservation**: Maintains rich formatting for seamless pasting
+
+### Performance Optimizations
+- **Mutation Observer**: Efficiently monitors DOM changes for dynamic content
+- **Debounced Execution**: Uses 500ms delay to prevent excessive processing
+- **Duplicate Prevention**: Tracks processed elements to avoid redundant operations
+- **Memory Management**: Proper cleanup and event handling
 
 **Troubleshooting:**
 
@@ -65,6 +110,8 @@ This guide will walk you through installing and running the "Perplexity Enhanced
     *   Open the Chrome Developer Tools (press F12 or Ctrl+Shift+I) on the Perplexity page. Check the **Console** tab for any errors logged by `content_script.js`. These errors can give clues about what might be going wrong.
     *   Double-check that the `matches` pattern in `manifest.json` (`"*://*.perplexity.ai/*"`) is correct for the URL you are on.
 *   **Button/Diagram not appearing:** This is often due to changes in Perplexity's website structure. The selectors in `content_script.js` used to find elements might need updating. This is common for extensions that modify third-party websites.
+*   **Mermaid links not working:** Verify that the code block contains valid Mermaid keywords and syntax. The extension only processes blocks that start with recognized Mermaid diagram types.
+*   **Rich text copy issues:** Ensure you're clicking the dollar sign ($) icon button, not the regular copy button. The rich text copy requires clipboard write permissions.
 
 **Updating the Extension:**
 
@@ -74,3 +121,40 @@ If you modify the local code for this extension:
 3.  Find the "Perplexity Enhanced" extension card.
 4.  Click the reload icon (a circular arrow) on the extension's card. This will reload the extension with your latest changes.
 5.  Refresh any Perplexity pages to see the updates.
+
+## Development Notes
+
+### Current Version: 0.1.0
+- **Extension Name**: Perplexity Enhanced
+- **Manifest Version**: 3 (Chrome Extensions Manifest V3)
+- **Target Platform**: Chrome/Chromium browsers
+- **Compatibility**: Designed for current Perplexity.ai website structure
+
+### Code Structure
+```
+perplexity-powerups/
+├── manifest.json          # Extension configuration
+├── content_script.js      # Main functionality (v16 - Dollar Icon & Citation Removal)
+├── styles.css            # Custom styling for UI elements
+├── popup.html            # Extension popup interface
+├── lib/
+│   └── marked.min.js     # Markdown processing library
+└── icons/
+    ├── icon16.png        # 16x16 toolbar icon
+    ├── icon48.png        # 48x48 management page icon
+    └── icon128.png       # 128x128 Chrome Web Store icon
+```
+
+### Key Implementation Highlights
+- **Robust DOM Manipulation**: Uses modern JavaScript with proper error handling
+- **Event-Driven Architecture**: Mutation observers for dynamic content detection
+- **Cross-Browser Compatibility**: Built with standard web APIs
+- **Performance Conscious**: Optimized selectors and debounced operations
+- **User Experience Focus**: Non-intrusive enhancements that complement Perplexity's interface
+
+### Future Enhancement Opportunities
+- Support for additional diagram types beyond Mermaid
+- Customizable citation removal patterns
+- User preferences and settings panel
+- Export options for processed content
+- Integration with other productivity tools
