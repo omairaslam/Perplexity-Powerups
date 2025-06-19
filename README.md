@@ -17,13 +17,13 @@ This Chrome extension enhances your Perplexity.ai experience with two main featu
 ### 2. **Enhanced Rich Text Copy with Dual Citation Options**
 *   **Dual Copy Buttons**: Adds two distinctive icon buttons next to Perplexity's native copy button in response toolbars:
     - **$ (Dollar) Icon**: Copies rich text WITHOUT citations - clean content for productivity
-    - **$C (Dollar-C) Icon**: Copies rich text WITH citations - preserves academic references
+    - **📋 (Clipboard) Icon**: Copies rich text WITH citations - preserves academic references
 *   **Citation Control**: Choose whether to include or exclude citation references based on your needs
 *   **Rich Text Preservation**: Both buttons copy content as HTML to preserve formatting (headings, lists, bold/italic text, etc.)
 *   **Smart Citation Cleaning**: The $ button automatically removes citation references (e.g., [1], [2], etc.) and source links
-*   **Academic Mode**: The $C button preserves all citations and references for academic or research purposes
+*   **Academic Mode**: The clipboard button preserves all citations and references for academic or research purposes
 *   **Visual Feedback**: Both buttons show checkmark animation when copy is successful
-*   **Color-Coded Design**: Green $ for clean copy, amber $C for citations included
+*   **Color-Coded Design**: Green $ for clean copy, amber clipboard for citations included
 *   **Optimized Workflow**: Perfect for different use cases - productivity (clean) vs. academic (with citations)
 
 ## Technical Implementation
@@ -86,9 +86,9 @@ This guide will walk you through installing and running the "Perplexity Enhanced
         *   After Perplexity generates a response with citations, hover over or focus on the response to make the action buttons appear.
         *   You should see TWO new icon buttons next to Perplexity's standard copy button:
             - **Green $ (Dollar) Icon**: Copy rich text WITHOUT citations
-            - **Amber $C (Dollar-C) Icon**: Copy rich text WITH citations
+            - **Amber 📋 (Clipboard) Icon**: Copy rich text WITH citations
         *   **Test Clean Copy**: Click the green $ icon, then paste into a rich text editor (like Google Docs, Word, or an email composer). Verify that formatting is preserved and citations/source references are automatically removed.
-        *   **Test Citation Copy**: Click the amber $C icon, then paste into a rich text editor. Verify that formatting is preserved AND citations/references are included.
+        *   **Test Citation Copy**: Click the amber clipboard icon, then paste into a rich text editor. Verify that formatting is preserved AND citations/references are included.
 
 ## Advanced Features & Implementation Details
 
@@ -102,7 +102,7 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 ### Rich Text Copy Enhancement
 - **Dual Copy Options**: Two buttons for different use cases
   - **$ Button (Green)**: Clean copy without citations for productivity workflows
-  - **$C Button (Amber)**: Copy with citations for academic/research purposes
+  - **📋 Clipboard Button (Amber)**: Copy with citations for academic/research purposes
 - **Smart Citation Control**: Choose to include or exclude citations based on context
 - **Advanced Citation Removal**: Automatically strips citation references `[1]`, `[2]`, etc. ($ button only)
 - **Source Link Cleaning**: Removes source sections and reference elements ($ button only)
@@ -127,7 +127,7 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 *   **Mermaid icon not appearing:** Verify that the code block contains valid Mermaid keywords and syntax. The extension only processes blocks that start with recognized Mermaid diagram types. The blue diagram icon should appear next to the copy button in the code block toolbar.
 *   **Rich text copy issues:** Ensure you're clicking the correct icon button:
     - **Green $ icon**: Copy without citations (clean copy)
-    - **Amber $C icon**: Copy with citations (academic copy)
+    - **Amber clipboard icon**: Copy with citations (academic copy)
     - Both rich text copy buttons require clipboard write permissions.
 
 **Updating the Extension:**

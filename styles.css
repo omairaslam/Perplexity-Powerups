@@ -27,12 +27,12 @@
   color: #059669; /* Darker green on hover */
 }
 
-/* Dollar with C icon specific styling */
-.perplexity-enhanced-button[title*="Rich Text (with citations)"] svg {
-  color: #f59e0b; /* Amber color for dollar-C icon */
+/* Clipboard with citations icon specific styling */
+.perplexity-enhanced-button[title*="with Citations"] svg {
+  color: #f59e0b; /* Amber color for clipboard icon */
 }
 
-.perplexity-enhanced-button[title*="Rich Text (with citations)"]:hover svg {
+.perplexity-enhanced-button[title*="with Citations"]:hover svg {
   color: #d97706; /* Darker amber on hover */
 }
 

@@ -213,18 +213,21 @@
     const copyRichWithCitationsButton = document.createElement('button');
     copyRichWithCitationsButton.className = previousButton.className || 'perplexity-enhanced-button';
     copyRichWithCitationsButton.type = 'button';
-    copyRichWithCitationsButton.title = 'Copy as Rich Text (with citations)';
+    copyRichWithCitationsButton.title = 'Copy Rich Text with Citations';
     copyRichWithCitationsButton.dataset.perplexityPowerupsButton = 'rich-copy-citations'; // Unique identifier
 
-    // Create "$C" icon SVG - dollar sign with "C" overlay
+    // Create clipboard with checkmark icon - simple and reliable
     copyRichWithCitationsButton.innerHTML = `
       <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23"></line>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          <circle cx="18" cy="6" r="3" fill="currentColor" stroke="none"></circle>
-          <text x="18" y="8" text-anchor="middle" font-size="6" fill="white" font-weight="bold">C</text>
-        </svg>
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Clipboard icon -->
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            <!-- Small checkmark to indicate "with citations" -->
+            <polyline points="9,11 12,14 16,10"></polyline>
+          </svg>
+        </div>
       </div>
     `;
 
