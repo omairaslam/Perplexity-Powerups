@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Perplexity Enhanced",
+  "version": "0.1.0",
+  "description": "Enhances Perplexity.ai with Mermaid graph rendering and rich text copying.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.perplexity.ai/*"],
+      "css": ["styles.css"],
+      "js": [
+        "lib/marked.min.js",
+        "content_script.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [],
+      "matches": ["*://*.perplexity.ai/*"]
+    }
+  ],
+  "action": {
+    "default_title": "Perplexity Enhanced",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

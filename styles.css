@@ -1,0 +1,30 @@
+.powerup-mermaid-live-link {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9em;
+  text-decoration: underline;
+  color: #5a5a5a;
+}
+
+.powerup-mermaid-live-link:hover {
+  color: #000;
+}
+
+/* Rich copy button styling */
+.perplexity-enhanced-button svg {
+  transition: all 0.2s ease;
+}
+
+.perplexity-enhanced-button:hover svg {
+  transform: scale(1.1);
+}
+
+/* Dollar icon specific styling */
+.perplexity-enhanced-button[title*="Rich Text"] svg {
+  color: #10b981; /* Green color for dollar icon */
+}
+
+.perplexity-enhanced-button[title*="Rich Text"]:hover svg {
+  color: #059669; /* Darker green on hover */
+}
