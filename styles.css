@@ -1,14 +1,12 @@
-.powerup-mermaid-live-link {
-  display: block;
-  margin-top: 8px;
-  margin-bottom: 16px;
-  font-size: 0.9em;
-  text-decoration: underline;
-  color: #5a5a5a;
+/* Mermaid icon button styling */
+.perplexity-enhanced-button[title*="Mermaid"] svg {
+  color: #0ea5e9; /* Blue color for Mermaid icon */
+  transition: all 0.2s ease;
 }
 
-.powerup-mermaid-live-link:hover {
-  color: #000;
+.perplexity-enhanced-button[title*="Mermaid"]:hover svg {
+  color: #0284c7; /* Darker blue on hover */
+  transform: scale(1.1);
 }
 
 /* Rich copy button styling */

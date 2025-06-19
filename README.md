@@ -7,9 +7,10 @@ This Chrome extension enhances your Perplexity.ai experience with two main featu
 
 ### 1. **Mermaid.js Code Block Enhancement**
 *   **Smart Detection**: Automatically detects Mermaid code blocks in Perplexity responses by analyzing code content for Mermaid keywords (`mermaid`, `graph`, `flowchart`, `sequencediagram`, `gantt`, `pie`, `classdiagram`, `erdiagram`, `statediagram`)
-*   **Mermaid.live Integration**: Adds an "Open in Mermaid.live Editor" link below detected Mermaid code blocks
+*   **Mermaid Icon Button**: Adds a distinctive diagram icon button next to the copy button in Mermaid code blocks
+*   **Mermaid.live Integration**: Click the diagram icon to instantly open the code in Mermaid.live Editor
 *   **Advanced URL Encoding**: Uses proper JSON-based Base64 encoding to ensure complex diagrams work correctly in Mermaid.live
-*   **Seamless Integration**: Links appear automatically without replacing the original code blocks, preserving Perplexity's native interface
+*   **Seamless Integration**: Icon buttons appear in the native toolbar without disrupting Perplexity's interface
 
 ### 2. **Enhanced Rich Text Copy with Citation Removal**
 *   **Smart Copy Button**: Adds a distinctive dollar sign ($) icon button next to Perplexity's native copy button in response toolbars
@@ -73,8 +74,8 @@ This guide will walk you through installing and running the "Perplexity Enhanced
     *   Open or refresh a tab with `https://www.perplexity.ai/`.
     *   **For Mermaid Enhancement:**
         *   Ask Perplexity a question that should return a Mermaid diagram (e.g., "Create a flowchart for making tea using Mermaid syntax" or "Draw a sequence diagram showing user login process").
-        *   Look for the "Open in Mermaid.live Editor" link that appears below Mermaid code blocks.
-        *   Click the link to verify it opens the diagram correctly in Mermaid.live with proper encoding.
+        *   Look for the blue diagram icon button that appears next to the copy button in Mermaid code blocks.
+        *   Click the diagram icon to verify it opens the diagram correctly in Mermaid.live with proper encoding.
     *   **For Enhanced Rich Text Copy:**
         *   After Perplexity generates a response with citations, hover over or focus on the response to make the action buttons appear.
         *   You should see a dollar sign ($) icon button next to Perplexity's standard copy button.
@@ -86,8 +87,9 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 ### Mermaid Integration
 - **Smart Content Detection**: Uses keyword analysis to identify Mermaid diagrams (`graph`, `flowchart`, `sequencediagram`, `gantt`, `pie`, `classdiagram`, `erdiagram`, `statediagram`)
 - **Robust URL Encoding**: Implements proper JSON-based Base64 encoding for complex diagrams
-- **Non-Intrusive Design**: Adds links without modifying original code blocks
-- **Error Prevention**: Includes duplicate link prevention and proper DOM manipulation
+- **Toolbar Integration**: Adds diagram icon buttons directly in code block toolbars next to copy buttons
+- **Visual Design**: Uses distinctive blue diagram icon with hover effects
+- **Error Prevention**: Includes duplicate button prevention and proper DOM manipulation
 
 ### Rich Text Copy Enhancement
 - **Citation Removal**: Automatically strips citation references `[1]`, `[2]`, etc.
@@ -110,7 +112,7 @@ This guide will walk you through installing and running the "Perplexity Enhanced
     *   Open the Chrome Developer Tools (press F12 or Ctrl+Shift+I) on the Perplexity page. Check the **Console** tab for any errors logged by `content_script.js`. These errors can give clues about what might be going wrong.
     *   Double-check that the `matches` pattern in `manifest.json` (`"*://*.perplexity.ai/*"`) is correct for the URL you are on.
 *   **Button/Diagram not appearing:** This is often due to changes in Perplexity's website structure. The selectors in `content_script.js` used to find elements might need updating. This is common for extensions that modify third-party websites.
-*   **Mermaid links not working:** Verify that the code block contains valid Mermaid keywords and syntax. The extension only processes blocks that start with recognized Mermaid diagram types.
+*   **Mermaid icon not appearing:** Verify that the code block contains valid Mermaid keywords and syntax. The extension only processes blocks that start with recognized Mermaid diagram types. The blue diagram icon should appear next to the copy button in the code block toolbar.
 *   **Rich text copy issues:** Ensure you're clicking the dollar sign ($) icon button, not the regular copy button. The rich text copy requires clipboard write permissions.
 
 **Updating the Extension:**

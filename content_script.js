@@ -5,15 +5,34 @@
 
   console.log('Perplexity Enhanced: Initializing (v16 - Dollar Icon & Citation Removal)...');
 
-  // --- MERMAID LINK HANDLING ---
-  function addMermaidLiveLink(wrapperElement, cleanCode) {
+  // --- MERMAID ICON BUTTON HANDLING ---
+  function addMermaidIconButton(wrapperElement, cleanCode) {
     if (wrapperElement.dataset.mermaidLinkAdded === 'true') return;
     wrapperElement.dataset.mermaidLinkAdded = 'true';
 
-    console.log('Perplexity Enhanced: Found a Mermaid block, creating JSON-based Base64 link.');
+    console.log('Perplexity Enhanced: Found a Mermaid block, creating icon button.');
 
+    // Find the toolbar that contains the copy button for this code block
     const preElement = wrapperElement.closest('pre');
     if (!preElement) return;
+
+    // Look for the toolbar with copy button in the code block area
+    const codeBlockContainer = preElement.closest('div');
+    if (!codeBlockContainer) return;
+
+    // Find toolbar with copy button - look for the specific copy button SVG
+    const toolbar = codeBlockContainer.querySelector('div[class*="flex"][class*="items-center"] button svg path[d*="M7 7m0 2.667"]')?.closest('div[class*="flex"][class*="items-center"]');
+    if (!toolbar) {
+      console.log('Perplexity Enhanced: Could not find code block toolbar for Mermaid button');
+      return;
+    }
+
+    // Find the copy button to position our Mermaid button next to it
+    const copyButton = toolbar.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
+    if (!copyButton) {
+      console.log('Perplexity Enhanced: Could not find copy button in code block toolbar');
+      return;
+    }
 
     // --- THE CORRECT ENCODING STRATEGY ---
     // 1. Create the JSON object with the code.
@@ -31,15 +50,33 @@
     // 4. Construct the URL with the correct #base64: prefix.
     const finalURL = `https://mermaid.live/edit#base64:${base64Code}`;
 
-    const editorLink = document.createElement('a');
-    editorLink.href = finalURL;
-    editorLink.textContent = 'Open in Mermaid.live Editor';
-    editorLink.target = '_blank';
-    editorLink.className = 'powerup-mermaid-live-link';
+    // Create Mermaid icon button
+    const mermaidButton = document.createElement('button');
+    mermaidButton.className = copyButton.className || 'perplexity-enhanced-button';
+    mermaidButton.type = 'button';
+    mermaidButton.title = 'Open in Mermaid.live Editor';
+
+    // Create Mermaid icon SVG (flowchart/diagram icon)
+    mermaidButton.innerHTML = `
+      <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+          <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+          <rect x="9" y="15" width="6" height="6" rx="1"></rect>
+          <path d="M6 9v3a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9"></path>
+          <path d="M12 15V9"></path>
+        </svg>
+      </div>
+    `;
+
+    mermaidButton.addEventListener('click', () => {
+      window.open(finalURL, '_blank');
+    });
 
     console.log("Final URL generated:", finalURL);
 
-    preElement.parentNode.insertBefore(editorLink, preElement.nextSibling);
+    // Insert the Mermaid button immediately after the copy button
+    copyButton.parentNode.insertBefore(mermaidButton, copyButton.nextSibling);
   }
 
   // --- RICH TEXT COPY HANDLING ---
@@ -157,7 +194,7 @@
       const isMermaid = ['mermaid', 'graph', 'flowchart', 'sequencediagram', 'gantt', 'pie', 'classdiagram', 'erdiagram', 'statediagram'].includes(firstWord);
 
       if (isMermaid) {
-        addMermaidLiveLink(wrapper, rawCode);
+        addMermaidIconButton(wrapper, rawCode);
       }
     });
 
