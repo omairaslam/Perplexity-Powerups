@@ -1,6 +1,8 @@
 # Perplexity Powerups
 A Chrome extension that provides essential powerups to enhance your Perplexity.ai experience
 
+> 📖 **New to the project?** Check out our [Development Journey](DEVELOPMENT_JOURNEY.md) to see how this extension evolved from concept to completion, including challenges overcome and technical innovations!
+
 ## Features
 
 This Chrome extension enhances your Perplexity.ai experience with two main features:
@@ -127,10 +129,18 @@ If you modify the local code for this extension:
 ## Development Notes
 
 ### Current Version: 0.1.0
-- **Extension Name**: Perplexity Enhanced
+- **Extension Name**: Perplexity Powerups
 - **Manifest Version**: 3 (Chrome Extensions Manifest V3)
 - **Target Platform**: Chrome/Chromium browsers
 - **Compatibility**: Designed for current Perplexity.ai website structure
+
+### 📖 Development Journey
+For a comprehensive look at the project's evolution, challenges overcome, and technical decisions made, see our detailed **[Development Journey](DEVELOPMENT_JOURNEY.md)** document. It chronicles:
+- Feature development phases
+- Major challenges and innovative solutions
+- Technical architecture evolution
+- UI/UX design decisions
+- Future roadmap and planned enhancements
 
 ### Code Structure
 ```
