@@ -3,36 +3,17 @@
 (function() {
   'use strict';
 
-  console.log('Perplexity Enhanced: Initializing (v16 - Dollar Icon & Citation Removal)...');
+  console.log('Perplexity Powerups: Initializing (v17 - Debug Mermaid Icon)...');
 
   // --- MERMAID ICON BUTTON HANDLING ---
   function addMermaidIconButton(wrapperElement, cleanCode) {
     if (wrapperElement.dataset.mermaidLinkAdded === 'true') return;
     wrapperElement.dataset.mermaidLinkAdded = 'true';
 
-    console.log('Perplexity Enhanced: Found a Mermaid block, creating icon button.');
+    console.log('Perplexity Powerups: Found a Mermaid block, creating icon button.');
 
-    // Find the toolbar that contains the copy button for this code block
-    const preElement = wrapperElement.closest('pre');
-    if (!preElement) return;
-
-    // Look for the toolbar with copy button in the code block area
-    const codeBlockContainer = preElement.closest('div');
-    if (!codeBlockContainer) return;
-
-    // Find toolbar with copy button - look for the specific copy button SVG
-    const toolbar = codeBlockContainer.querySelector('div[class*="flex"][class*="items-center"] button svg path[d*="M7 7m0 2.667"]')?.closest('div[class*="flex"][class*="items-center"]');
-    if (!toolbar) {
-      console.log('Perplexity Enhanced: Could not find code block toolbar for Mermaid button');
-      return;
-    }
-
-    // Find the copy button to position our Mermaid button next to it
-    const copyButton = toolbar.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
-    if (!copyButton) {
-      console.log('Perplexity Enhanced: Could not find copy button in code block toolbar');
-      return;
-    }
+    // Store the Mermaid data for later use when we find the toolbar
+    wrapperElement.dataset.mermaidCode = cleanCode;
 
     // --- THE CORRECT ENCODING STRATEGY ---
     // 1. Create the JSON object with the code.
@@ -50,33 +31,55 @@
     // 4. Construct the URL with the correct #base64: prefix.
     const finalURL = `https://mermaid.live/edit#base64:${base64Code}`;
 
+    // Store the URL for later use
+    wrapperElement.dataset.mermaidUrl = finalURL;
+
+    console.log("Final URL generated:", finalURL);
+  }
+
+  function addMermaidButtonToToolbar(toolbarElement, mermaidUrl) {
+    if (toolbarElement.dataset.mermaidButtonAdded === 'true') return;
+    toolbarElement.dataset.mermaidButtonAdded = 'true';
+
+    // Find the original copy button to position our button right next to it
+    const originalCopyButton = toolbarElement.querySelector('button[data-testid="copy-code-button"]') ||
+                              toolbarElement.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
+    if (!originalCopyButton) {
+      console.log('Perplexity Powerups: Could not find original copy button for Mermaid positioning');
+      return;
+    }
+
     // Create Mermaid icon button
     const mermaidButton = document.createElement('button');
-    mermaidButton.className = copyButton.className || 'perplexity-enhanced-button';
+    mermaidButton.className = originalCopyButton.className || 'perplexity-enhanced-button';
     mermaidButton.type = 'button';
     mermaidButton.title = 'Open in Mermaid.live Editor';
+    mermaidButton.style.marginLeft = '8px'; // Add some spacing
+    mermaidButton.dataset.perplexityPowerupsButton = 'mermaid'; // Unique identifier
 
     // Create Mermaid icon SVG (flowchart/diagram icon)
     mermaidButton.innerHTML = `
       <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="6" height="6" rx="1"></rect>
-          <rect x="15" y="3" width="6" height="6" rx="1"></rect>
-          <rect x="9" y="15" width="6" height="6" rx="1"></rect>
-          <path d="M6 9v3a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9"></path>
-          <path d="M12 15V9"></path>
-        </svg>
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+            <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+            <rect x="9" y="15" width="6" height="6" rx="1"></rect>
+            <path d="M6 9v3a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9"></path>
+            <path d="M12 15V9"></path>
+          </svg>
+        </div>
       </div>
     `;
 
     mermaidButton.addEventListener('click', () => {
-      window.open(finalURL, '_blank');
+      window.open(mermaidUrl, '_blank');
     });
 
-    console.log("Final URL generated:", finalURL);
+    console.log('Perplexity Powerups: Adding Mermaid button to toolbar');
 
     // Insert the Mermaid button immediately after the copy button
-    copyButton.parentNode.insertBefore(mermaidButton, copyButton.nextSibling);
+    originalCopyButton.parentNode.insertBefore(mermaidButton, originalCopyButton.nextSibling);
   }
 
   // --- RICH TEXT COPY HANDLING ---
@@ -126,12 +129,23 @@
 
   function addRichCopyButton(toolbarElement) {
     if (toolbarElement.dataset.richCopyAdded === 'true') return;
+
+    // Additional check to prevent duplicates - look for existing rich copy buttons
+    const existingRichButton = toolbarElement.querySelector('button[data-perplexity-powerups-button="rich-copy"]') ||
+                              toolbarElement.querySelector('button[title*="Rich Text"]') ||
+                              toolbarElement.querySelector('svg path[d*="M17 5H9.5a3.5"]')?.closest('button');
+    if (existingRichButton) {
+      console.log('Perplexity Powerups: Rich copy button already exists, skipping');
+      return; // Already has a rich copy button
+    }
+
     toolbarElement.dataset.richCopyAdded = 'true';
 
     // Find the original copy button to position our button right next to it
-    const originalCopyButton = toolbarElement.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
+    const originalCopyButton = toolbarElement.querySelector('button[data-testid="copy-code-button"]') ||
+                              toolbarElement.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
     if (!originalCopyButton) {
-      console.log('Perplexity Enhanced: Could not find original copy button for positioning');
+      console.log('Perplexity Powerups: Could not find original copy button for positioning');
       return;
     }
 
@@ -139,6 +153,7 @@
     copyRichButton.className = originalCopyButton.className || 'perplexity-enhanced-button';
     copyRichButton.type = 'button';
     copyRichButton.title = 'Copy as Rich Text (without citations)';
+    copyRichButton.dataset.perplexityPowerupsButton = 'rich-copy'; // Unique identifier
 
     // Create dollar icon SVG
     copyRichButton.innerHTML = `
@@ -181,7 +196,7 @@
 
   // --- MAIN OBSERVER & EXECUTION LOGIC ---
   function runEnhancements() {
-    // 1. Process Mermaid blocks
+    // 1. Process Mermaid blocks and add buttons to their toolbars
     document.querySelectorAll('div.codeWrapper:not([data-mermaid-link-added="true"])').forEach(wrapper => {
       const codeElement = wrapper.querySelector('code');
       if (!codeElement) return;
@@ -195,15 +210,39 @@
 
       if (isMermaid) {
         addMermaidIconButton(wrapper, rawCode);
+
+        // Find the toolbar within this code block and add the Mermaid button
+        const copyButton = wrapper.querySelector('button[data-testid="copy-code-button"]');
+        console.log('Perplexity Powerups: Looking for copy button in Mermaid block:', copyButton);
+        if (copyButton && wrapper.dataset.mermaidUrl && !copyButton.dataset.mermaidButtonAdded) {
+          // Use the copy button's parent container as the toolbar
+          const toolbar = copyButton.parentElement;
+          console.log('Perplexity Powerups: Found toolbar for Mermaid button:', toolbar);
+          addMermaidButtonToToolbar(toolbar, wrapper.dataset.mermaidUrl);
+        }
       }
     });
 
-    // 2. Add "Copy Rich" button with dollar icon
-    document.querySelectorAll('div[class*="flex"][class*="items-center"][class*="gap-x-"]').forEach(toolbar => {
-        const hasCopySVG = toolbar.querySelector('svg path[d*="M7 7m0 2.667"]');
-        if (hasCopySVG && !toolbar.dataset.richCopyAdded) {
-            addRichCopyButton(toolbar);
-        }
+    // 2. Add "Copy Rich" button with dollar icon to regular response toolbars (not code blocks)
+    document.querySelectorAll('div[class*="flex"][class*="items-center"][class*="gap-x-"]:not([data-rich-copy-added])').forEach(toolbar => {
+      // Skip if this is inside a code block (Mermaid or regular code)
+      if (toolbar.closest('div.codeWrapper') || toolbar.closest('pre')) {
+        return;
+      }
+
+      // Skip if already has rich copy buttons
+      if (toolbar.querySelector('button[data-perplexity-powerups-button="rich-copy"]') ||
+          toolbar.querySelector('button[title*="Rich Text"]')) {
+        return;
+      }
+
+      // Look for copy buttons that are NOT the code copy button
+      const hasCopyButton = toolbar.querySelector('svg path[d*="M7 7m0 2.667"]') &&
+                           !toolbar.querySelector('button[data-testid="copy-code-button"]');
+
+      if (hasCopyButton && !toolbar.dataset.richCopyAdded) {
+        addRichCopyButton(toolbar);
+      }
     });
   }
 
