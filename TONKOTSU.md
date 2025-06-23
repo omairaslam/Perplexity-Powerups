@@ -2,43 +2,70 @@
 This file contains important context about this repo for [Tonkotsu](https://www.tonkotsu.ai) and helps it work faster and generate better code.
 
 ## Project Type
-Chrome Extension (Manifest V3) - JavaScript/HTML/CSS
+Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 
 ## Setup Commands
 
-### Initial Setup
-No package installation or virtual environment needed. This is a Chrome extension with static files.
+### 1. Initial Setup
+```bash
+# No package installation needed - this is a static Chrome extension
+# Files are loaded directly into Chrome as an unpacked extension
+```
 
-### Build
-No build process required. Extension files are used directly.
+### 2. Development Environment
+```bash
+# No virtual environment needed - pure JavaScript/HTML/CSS
+# Extension uses static files only
+```
 
-### Lint
-No linting configured. Extension uses standard JavaScript, HTML, and CSS.
+### 3. Build Commands
+```bash
+# No build process - extension uses static files directly
+# Files are served as-is to Chrome extension runtime
+```
 
-### Tests
-No test framework configured.
+### 4. Lint Commands
+```bash
+# No linting setup - manual code review used
+# Consider adding ESLint for future development
+```
 
-### Dev Server
-No dev server needed. Load as unpacked extension in Chrome:
-1. Open `chrome://extensions`
-2. Enable "Developer mode"
-3. Click "Load unpacked" and select the project directory
+### 5. Test Commands
+```bash
+# No automated testing framework
+# Testing done manually by loading extension in Chrome
+```
 
-## Extension Structure
+### 6. Development Server
+```bash
+# No dev server needed - extension loaded directly in Chrome
+# Use Chrome's extension reload button for updates
+```
+
+## Installation Process
+1. Open Chrome and navigate to `chrome://extensions`
+2. Enable "Developer mode" toggle
+3. Click "Load unpacked" button
+4. Select the project directory containing `manifest.json`
+5. Extension will be loaded and ready to use on Perplexity.ai
+
+## Development Workflow
+1. Make changes to source files
+2. Go to `chrome://extensions`
+3. Click reload icon on the extension card
+4. Refresh Perplexity.ai tabs to see updates
+5. Test functionality manually
+
+## Key Files
 - `manifest.json` - Extension configuration
 - `content_script.js` - Main functionality
 - `styles.css` - Custom styling
 - `popup.html` - Extension popup
-- `lib/marked.min.js` - Markdown processing library
 - `icons/` - Extension icons
+- `lib/marked.min.js` - Markdown processing library
 
-## Development Workflow
-1. Make changes to extension files
-2. Go to `chrome://extensions`
-3. Click reload button on the extension card
-4. Refresh any Perplexity.ai tabs to see changes
-
-## Testing
-Manual testing on https://www.perplexity.ai/:
-- Test Mermaid diagram detection and icon button
-- Test rich text copy buttons (with/without citations)
+## Technology Stack
+- Vanilla JavaScript (ES6+)
+- HTML5/CSS3
+- Chrome Extension APIs
+- Manifest V3 specification
