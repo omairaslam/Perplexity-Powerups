@@ -82,6 +82,20 @@ The project began with a simple goal: enhance the Perplexity.ai user experience 
 - **Consistent Styling**: Match Perplexity's design language
 - **Accessibility**: Proper tooltips and ARIA labels
 
+### Phase 4: Google Doc Integration & Toolbar Refinement
+**Timeline**: Feature Expansion
+**Goal**: Add Google Doc export and improve toolbar integration
+
+#### Features Implemented:
+- ✅ **Google Doc Button** - Grayscale document icon, matches other toolbar icons
+- ✅ **One-Click Copy to Google Doc** - Copies rich text, opens docs.new, prompts user to paste
+- ✅ **Robust Toolbar Selector** - Targets `.gap-x-xs.flex.items-center` for reliable button injection
+
+#### Technical Innovations:
+- **Grayscale SVG Icon**: Consistent with Perplexity's UI
+- **Clipboard API**: HTML copy for Google Docs compatibility
+- **DOM Integration**: Button appears only when rich copy buttons are present
+
 ---
 
 ## 🐛 Major Challenges & Solutions

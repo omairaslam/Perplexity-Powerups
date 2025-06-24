@@ -58,7 +58,7 @@ Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 
 ## Key Files
 - `manifest.json` - Extension configuration
-- `content_script.js` - Main functionality
+- `content_script.js` - Main functionality (includes Google Doc export button with grayscale icon)
 - `styles.css` - Custom styling
 - `popup.html` - Extension popup
 - `icons/` - Extension icons
@@ -69,3 +69,8 @@ Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 - HTML5/CSS3
 - Chrome Extension APIs
 - Manifest V3 specification
+
+## Features
+- Mermaid diagram export
+- Rich text copy (with/without citations)
+- **Copy to Google Doc button**: Grayscale icon, copies HTML and opens docs.new for pasting

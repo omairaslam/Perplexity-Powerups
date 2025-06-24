@@ -410,3 +410,9 @@ The Perplexity Powerups extension demonstrates strong functional capabilities bu
 - Establish measurement systems to track improvement progress
 
 The project has solid foundations and clear value proposition - with proper technical debt reduction, it can evolve into a robust, maintainable extension that serves as a model for browser extension development.
+
+---
+
+## 12. New Features
+
+- **New Feature**: Google Doc export button with grayscale icon, integrated into the response toolbar using robust selectors. Uses Clipboard API for HTML copy and opens docs.new for user paste.

@@ -5,7 +5,7 @@ A Chrome extension that provides essential powerups to enhance your Perplexity.a
 
 ## Features
 
-This Chrome extension enhances your Perplexity.ai experience with two main features:
+This Chrome extension enhances your Perplexity.ai experience with three main features:
 
 ### 1. **Mermaid.js Code Block Enhancement**
 *   **Smart Detection**: Automatically detects Mermaid code blocks in Perplexity responses by analyzing code content for Mermaid keywords (`mermaid`, `graph`, `flowchart`, `sequencediagram`, `gantt`, `pie`, `classdiagram`, `erdiagram`, `statediagram`)
@@ -25,6 +25,12 @@ This Chrome extension enhances your Perplexity.ai experience with two main featu
 *   **Visual Feedback**: Both buttons show checkmark animation when copy is successful
 *   **Color-Coded Design**: Green $ for clean copy, amber clipboard for citations included
 *   **Optimized Workflow**: Perfect for different use cases - productivity (clean) vs. academic (with citations)
+
+### 3. **Copy to Google Doc Button**
+*   **Google Doc Icon Button**: Adds a grayscale document icon button next to the rich text copy buttons in response toolbars
+*   **One-Click Workflow**: Copies the response as rich text (HTML), opens a new Google Doc in a new tab, and prompts you to paste
+*   **Seamless Integration**: Button appears in the same toolbar, styled to match other icons
+*   **Visual Feedback**: Button shows a confirmation message after copying
 
 ## Technical Implementation
 
@@ -89,6 +95,10 @@ This guide will walk you through installing and running the "Perplexity Enhanced
             - **Amber 📋 (Clipboard) Icon**: Copy rich text WITH citations
         *   **Test Clean Copy**: Click the green $ icon, then paste into a rich text editor (like Google Docs, Word, or an email composer). Verify that formatting is preserved and citations/source references are automatically removed.
         *   **Test Citation Copy**: Click the amber clipboard icon, then paste into a rich text editor. Verify that formatting is preserved AND citations/references are included.
+    *   **For Copy to Google Doc Feature:**
+        *   After receiving a response in Perplexity, locate the new document icon button in the response toolbar.
+        *   Click the document icon to test the one-click copy and open workflow for Google Docs.
+        *   A new tab should open with a blank Google Doc, and the response content should be copied as rich text, ready for you to paste.
 
 ## Advanced Features & Implementation Details
 
@@ -110,6 +120,11 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 - **Feedback System**: Both buttons provide visual confirmation with checkmark animation
 - **HTML Preservation**: Maintains rich formatting for seamless pasting in both modes
 
+### Copy to Google Doc Feature
+- **Google Doc Button**: Grayscale document icon for copying rich text to a new Google Doc, matching the style of other toolbar icons
+- **One-Click Copy Workflow**: Copies response content as rich text (HTML) and opens a new Google Doc in a new tab
+- **Visual Feedback**: Shows a confirmation message after copying
+
 ### Performance Optimizations
 - **Mutation Observer**: Efficiently monitors DOM changes for dynamic content
 - **Debounced Execution**: Uses 500ms delay to prevent excessive processing
@@ -129,6 +144,7 @@ This guide will walk you through installing and running the "Perplexity Enhanced
     - **Green $ icon**: Copy without citations (clean copy)
     - **Amber clipboard icon**: Copy with citations (academic copy)
     - Both rich text copy buttons require clipboard write permissions.
+*   **Google Doc button not working:** Ensure you are logged into your Google account in the browser. The button requires access to Google Docs to create a new document.
 
 **Updating the Extension:**
 
