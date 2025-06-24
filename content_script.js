@@ -260,6 +260,93 @@
     previousButton.parentNode.insertBefore(copyRichWithCitationsButton, previousButton.nextSibling);
   }
 
+  function addGoogleDocButton(toolbarElement, previousButton) {
+    if (toolbarElement.dataset.googleDocButtonAdded === 'true') return;
+    toolbarElement.dataset.googleDocButtonAdded = 'true';
+
+    const googleDocButton = document.createElement('button');
+    googleDocButton.className = previousButton.className || 'perplexity-enhanced-button';
+    googleDocButton.type = 'button';
+    googleDocButton.title = 'Copy Rich Text to New Google Doc';
+    googleDocButton.dataset.perplexityPowerupsButton = 'google-doc-copy';
+    googleDocButton.style.marginLeft = '8px';
+    googleDocButton.innerHTML = `
+      <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <rect x="7" y="6" width="10" height="2" rx="1"/>
+            <rect x="7" y="10" width="10" height="2" rx="1"/>
+            <rect x="7" y="14" width="6" height="2" rx="1"/>
+          </svg>
+        </div>
+      </div>
+    `;
+
+    googleDocButton.addEventListener('click', async () => {
+      const mainResponseContainer = toolbarElement.closest('div[class*="border-b"]');
+      if (!mainResponseContainer) return alert('Google Doc: Could not find main response container.');
+      const proseElement = mainResponseContainer.querySelector('div[class*="prose"]');
+      if (!proseElement) return alert('Google Doc: Could not find content to copy.');
+      const originalHtml = proseElement.innerHTML;
+      const blob = new Blob([originalHtml], { type: 'text/html' });
+      const clipboardItem = new ClipboardItem({ 'text/html': blob });
+      await navigator.clipboard.write([clipboardItem]);
+      window.open('https://docs.new', '_blank');
+      const originalContent = googleDocButton.innerHTML;
+      googleDocButton.innerHTML += ' <span style="color:#34A853;font-size:12px;">Copied! Paste in Google Doc</span>';
+      setTimeout(() => { googleDocButton.innerHTML = originalContent; }, 2500);
+    });
+
+    previousButton.parentNode.insertBefore(googleDocButton, previousButton.nextSibling);
+  }
+
+  function addGoogleDocButtonToRichCopyToolbar(richCopyToolbar) {
+    if (richCopyToolbar.querySelector('button[data-perplexity-powerups-button="google-doc-copy"]')) return;
+
+    // Find the last rich copy button (with or without citations)
+    const lastRichCopyBtn = richCopyToolbar.querySelector('button[data-perplexity-powerups-button="rich-copy-citations"]') ||
+                            richCopyToolbar.querySelector('button[data-perplexity-powerups-button="rich-copy"]');
+    if (!lastRichCopyBtn) return;
+
+    const googleDocButton = document.createElement('button');
+    googleDocButton.className = lastRichCopyBtn.className || 'perplexity-enhanced-button';
+    googleDocButton.type = 'button';
+    googleDocButton.title = 'Copy Rich Text to New Google Doc';
+    googleDocButton.dataset.perplexityPowerupsButton = 'google-doc-copy';
+    googleDocButton.style.marginLeft = '8px';
+    googleDocButton.innerHTML = `
+      <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <rect x="7" y="6" width="10" height="2" rx="1"/>
+            <rect x="7" y="10" width="10" height="2" rx="1"/>
+            <rect x="7" y="14" width="6" height="2" rx="1"/>
+          </svg>
+        </div>
+      </div>
+    `;
+
+    googleDocButton.addEventListener('click', async () => {
+      // Find the closest prose element for this response
+      const mainResponseContainer = richCopyToolbar.closest('div[class*="border-b"]');
+      if (!mainResponseContainer) return alert('Google Doc: Could not find main response container.');
+      const proseElement = mainResponseContainer.querySelector('div[class*="prose"]');
+      if (!proseElement) return alert('Google Doc: Could not find content to copy.');
+      const originalHtml = proseElement.innerHTML;
+      const blob = new Blob([originalHtml], { type: 'text/html' });
+      const clipboardItem = new ClipboardItem({ 'text/html': blob });
+      await navigator.clipboard.write([clipboardItem]);
+      window.open('https://docs.new', '_blank');
+      const originalContent = googleDocButton.innerHTML;
+      googleDocButton.innerHTML += ' <span style="color:#34A853;font-size:12px;">Copied! Paste in Google Doc</span>';
+      setTimeout(() => { googleDocButton.innerHTML = originalContent; }, 2500);
+    });
+
+    lastRichCopyBtn.parentNode.insertBefore(googleDocButton, lastRichCopyBtn.nextSibling);
+  }
+
   // --- MAIN OBSERVER & EXECUTION LOGIC ---
   function runEnhancements() {
     // 1. Process Mermaid blocks and add buttons to their toolbars
@@ -310,6 +397,11 @@
       if (hasCopyButton && !toolbar.dataset.richCopyAdded) {
         addRichCopyButton(toolbar);
       }
+    });
+
+    // 3. Add Google Doc button to the correct toolbar
+    document.querySelectorAll('div.gap-x-xs.flex.items-center[data-rich-copy-added][data-rich-copy-with-citations-added]').forEach(richCopyToolbar => {
+      addGoogleDocButtonToRichCopyToolbar(richCopyToolbar);
     });
   }
 
