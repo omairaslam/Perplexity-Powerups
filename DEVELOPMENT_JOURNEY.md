@@ -88,7 +88,7 @@ The project began with a simple goal: enhance the Perplexity.ai user experience 
 
 #### Features Implemented:
 - ✅ **Google Doc Button** - Grayscale document icon, matches other toolbar icons
-- ✅ **One-Click Copy to Google Doc** - Copies rich text, opens docs.new, prompts user to paste
+- ✅ **One-Click Copy to Google Doc** - Copies clean, citation-free rich text, opens docs.new, prompts user to paste
 - ✅ **Robust Toolbar Selector** - Targets `.gap-x-xs.flex.items-center` for reliable button injection
 
 #### Technical Innovations:

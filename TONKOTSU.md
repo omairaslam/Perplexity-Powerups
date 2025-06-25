@@ -73,4 +73,4 @@ Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 ## Features
 - Mermaid diagram export
 - Rich text copy (with/without citations)
-- **Copy to Google Doc button**: Grayscale icon, copies HTML and opens docs.new for pasting
+- **Copy to Google Doc button**: Grayscale icon, copies clean, citation-free HTML and opens docs.new for pasting
