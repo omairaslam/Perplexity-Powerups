@@ -288,8 +288,9 @@
       if (!mainResponseContainer) return alert('Google Doc: Could not find main response container.');
       const proseElement = mainResponseContainer.querySelector('div[class*="prose"]');
       if (!proseElement) return alert('Google Doc: Could not find content to copy.');
-      const originalHtml = proseElement.innerHTML;
-      const blob = new Blob([originalHtml], { type: 'text/html' });
+      // Clean the content to remove citations before copying
+      const cleanedHtml = cleanContentForCopy(proseElement.innerHTML);
+      const blob = new Blob([cleanedHtml], { type: 'text/html' });
       const clipboardItem = new ClipboardItem({ 'text/html': blob });
       await navigator.clipboard.write([clipboardItem]);
       window.open('https://docs.new', '_blank');
@@ -334,8 +335,9 @@
       if (!mainResponseContainer) return alert('Google Doc: Could not find main response container.');
       const proseElement = mainResponseContainer.querySelector('div[class*="prose"]');
       if (!proseElement) return alert('Google Doc: Could not find content to copy.');
-      const originalHtml = proseElement.innerHTML;
-      const blob = new Blob([originalHtml], { type: 'text/html' });
+      // Clean the content to remove citations before copying
+      const cleanedHtml = cleanContentForCopy(proseElement.innerHTML);
+      const blob = new Blob([cleanedHtml], { type: 'text/html' });
       const clipboardItem = new ClipboardItem({ 'text/html': blob });
       await navigator.clipboard.write([clipboardItem]);
       window.open('https://docs.new', '_blank');
