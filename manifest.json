@@ -13,8 +13,9 @@
       "matches": ["*://*.perplexity.ai/*"],
       "css": ["styles.css"],
       "js": [
-        "lib/pako_deflate.min.js",
-        "lib/marked.min.js",
+        "node_modules/pako/dist/pako_deflate.min.js",
+        "node_modules/marked/lib/marked.umd.js",
+        "node_modules/mermaid/dist/mermaid.min.js",
         "content_script.js"
       ]
     }
