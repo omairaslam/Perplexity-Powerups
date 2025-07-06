@@ -266,7 +266,7 @@ class ConfigManager {
     mermaidEnabled: true,
     richCopyEnabled: true,
     customMermaidUrl: 'https://mermaid.live/edit',
-    citationPatterns: [/\[\d+\]/g, /\(\d+\)/g]
+    citationPatterns: [/[\]/g, /\(\d+\)/g]
   };
   // Implementation...
 }
@@ -416,3 +416,15 @@ The project has solid foundations and clear value proposition - with proper tech
 ## 12. New Features
 
 - **New Feature**: Google Doc export button with grayscale icon, integrated into the response toolbar using robust selectors. Uses Clipboard API for HTML copy and opens docs.new for user paste.
+
+---
+
+## 13. Update
+
+Since this report was written, the following changes have been made:
+
+*   **Dependency Management**: The project now uses `npm` for dependency management. The manual `lib` folder has been removed and all dependencies are now managed through `package.json`.
+*   **Draw.io Integration**: A new feature has been added that allows users to open Mermaid, PlantUML, and Graphviz diagrams in draw.io.
+*   **URL Encoding**: The draw.io integration uses `pako` to compress and encode the diagram data, allowing for large diagrams to be opened.
+
+These changes address some of the key issues raised in this report, including the lack of dependency management and the need for new features.

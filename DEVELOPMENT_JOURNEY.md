@@ -96,6 +96,20 @@ The project began with a simple goal: enhance the Perplexity.ai user experience 
 - **Clipboard API**: HTML copy for Google Docs compatibility
 - **DOM Integration**: Button appears only when rich copy buttons are present
 
+### Phase 5: Dependency Management & Draw.io Integration
+**Timeline**: Modernization & Feature Expansion
+**Goal**: Migrate to npm for dependency management and add draw.io integration
+
+#### Features Implemented:
+- ✅ **npm Dependency Management** - Replaced manual `lib` folder with `package.json`
+- ✅ **draw.io Integration** - Added "Open in draw.io" button for Mermaid, PlantUML, and Graphviz code
+- ✅ **Advanced URL Encoding** - Implemented `pako` deflate compression for draw.io URLs
+
+#### Key Technical Decisions:
+- **npm**: Adopted industry-standard dependency management
+- **pako**: Chose a robust library for URL compression
+- **Multi-Diagram Support**: Expanded diagram detection to include PlantUML and Graphviz
+
 ---
 
 ## 🐛 Major Challenges & Solutions

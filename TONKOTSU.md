@@ -8,8 +8,7 @@ Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 
 ### 1. Initial Setup
 ```bash
-# No package installation needed - this is a static Chrome extension
-# Files are loaded directly into Chrome as an unpacked extension
+npm install
 ```
 
 ### 2. Development Environment
@@ -43,11 +42,12 @@ Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 ```
 
 ## Installation Process
-1. Open Chrome and navigate to `chrome://extensions`
-2. Enable "Developer mode" toggle
-3. Click "Load unpacked" button
-4. Select the project directory containing `manifest.json`
-5. Extension will be loaded and ready to use on Perplexity.ai
+1. Run `npm install` to install dependencies.
+2. Open Chrome and navigate to `chrome://extensions`
+3. Enable "Developer mode" toggle
+4. Click "Load unpacked" button
+5. Select the project directory containing `manifest.json`
+6. Extension will be loaded and ready to use on Perplexity.ai
 
 ## Development Workflow
 1. Make changes to source files
@@ -58,19 +58,21 @@ Chrome Extension (Manifest V3) for enhancing Perplexity.ai user experience.
 
 ## Key Files
 - `manifest.json` - Extension configuration
+- `package.json` - Project dependencies
 - `content_script.js` - Main functionality (includes Google Doc export button with grayscale icon)
 - `styles.css` - Custom styling
 - `popup.html` - Extension popup
 - `icons/` - Extension icons
-- `lib/marked.min.js` - Markdown processing library
 
 ## Technology Stack
 - Vanilla JavaScript (ES6+)
 - HTML5/CSS3
 - Chrome Extension APIs
 - Manifest V3 specification
+- npm for dependency management
 
 ## Features
 - Mermaid diagram export
 - Rich text copy (with/without citations)
 - **Copy to Google Doc button**: Grayscale icon, copies clean, citation-free HTML and opens docs.new for pasting
+- **Open in draw.io button**: Opens Mermaid, PlantUML, and Graphviz diagrams in draw.io
