@@ -5,7 +5,7 @@ A Chrome extension that provides essential powerups to enhance your Perplexity.a
 
 ## Features
 
-This Chrome extension enhances your Perplexity.ai experience with three main features:
+This Chrome extension enhances your Perplexity.ai experience with four main features:
 
 ### 1. **Mermaid.js Code Block Enhancement**
 *   **Smart Detection**: Automatically detects Mermaid code blocks in Perplexity responses by analyzing code content for Mermaid keywords (`mermaid`, `graph`, `flowchart`, `sequencediagram`, `gantt`, `pie`, `classdiagram`, `erdiagram`, `statediagram`)
@@ -31,6 +31,11 @@ This Chrome extension enhances your Perplexity.ai experience with three main fea
 *   **One-Click Workflow**: Copies the response as clean, citation-free rich text (HTML), opens a new Google Doc in a new tab, and prompts you to paste
 *   **Citation-Free**: Automatically removes citations for a clean paste into your document
 *   **Visual Feedback**: Button shows a confirmation message after copying
+
+### 4. **Open in draw.io Button**
+*   **draw.io Icon Button**: Adds a distinctive draw.io icon button next to the Mermaid icon button in code blocks that contain Mermaid, PlantUML, or Graphviz code.
+*   **One-Click Workflow**: Opens the diagram in a new draw.io tab, ready for you to edit.
+*   **Advanced URL Encoding**: Uses a sophisticated compression and encoding scheme to ensure that even large diagrams are correctly imported into draw.io.
 
 ## Technical Implementation
 
@@ -115,6 +120,13 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 - **Toolbar Integration**: Adds diagram icon buttons directly in code block toolbars next to copy buttons
 - **Visual Design**: Uses distinctive blue diagram icon with hover effects
 - **Error Prevention**: Includes duplicate button prevention and proper DOM manipulation
+
+### Open in draw.io Integration
+*   **Smart Content Detection**: Uses keyword analysis to identify Mermaid, PlantUML, and Graphviz diagrams.
+*   **Robust URL Encoding**: Implements a `pako` deflate compression and Base64 encoding scheme to handle large diagrams.
+*   **Toolbar Integration**: Adds a draw.io icon button directly in code block toolbars next to the Mermaid icon button.
+*   **Visual Design**: Uses the official draw.io icon with hover effects.
+*   **Error Prevention**: Includes duplicate button prevention and proper DOM manipulation.
 
 ### Rich Text Copy Enhancement
 - **Dual Copy Options**: Two buttons for different use cases
