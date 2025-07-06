@@ -43,16 +43,43 @@
     wrapperElement.dataset.drawioLinkAdded = 'true'; // Mark as processed early
 
     console.log('Perplexity Powerups: Found a Draw.io block, creating icon button data.');
+    console.log('Draw.io Debug: Raw XML:', rawCode);
 
-    // URL-encode the raw XML data
-    const encodedXml = encodeURIComponent(rawCode);
+    try {
+      // 1. Convert rawCode (UTF-8 string) to Uint8Array
+      const textEncoder = new TextEncoder();
+      const uint8Array = textEncoder.encode(rawCode);
+      console.log('Draw.io Debug: XML as Uint8Array:', uint8Array);
 
-    // Construct the URL for app.diagrams.net
-    // Using the #H{data} method for uncompressed XML
-    const finalURL = `https://app.diagrams.net/#H${encodedXml}`;
+      // 2. Compress using pako.deflateRaw
+      const compressedData = pako.deflateRaw(uint8Array);
+      console.log('Draw.io Debug: Compressed Uint8Array:', compressedData);
 
-    wrapperElement.dataset.drawioUrl = finalURL;
-    console.log("Draw.io Final URL generated:", finalURL);
+      // 3. Convert compressed Uint8Array to a binary string
+      let binaryString = '';
+      for (let i = 0; i < compressedData.length; i++) {
+        binaryString += String.fromCharCode(compressedData[i]);
+      }
+      console.log('Draw.io Debug: Compressed data as binary string (first 100 chars):', binaryString.substring(0,100));
+
+      // 4. Base64 encode the binary string
+      const base64Encoded = btoa(binaryString);
+      console.log('Draw.io Debug: Base64 encoded (first 100 chars):', base64Encoded.substring(0,100));
+
+      // 5. URL-encode the Base64 string
+      const urlEncodedData = encodeURIComponent(base64Encoded);
+      console.log('Draw.io Debug: URL-encoded Base64 (first 100 chars):', urlEncodedData.substring(0,100));
+
+      // 6. Construct the final URL
+      const finalURL = `https://app.diagrams.net/#R${urlEncodedData}`;
+      wrapperElement.dataset.drawioUrl = finalURL;
+      console.log("Draw.io Debug: Final URL generated:", finalURL);
+
+    } catch (error) {
+      console.error('Perplexity Powerups: Error during Draw.io URL generation:', error);
+      // Clear any potentially partially set URL to prevent errors
+      delete wrapperElement.dataset.drawioUrl;
+    }
   }
 
   function addDrawioButtonToToolbar(toolbarElement, drawioUrl) {
