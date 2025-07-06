@@ -37,6 +37,92 @@
     console.log("Final URL generated:", finalURL);
   }
 
+  // --- DRAW.IO ICON BUTTON HANDLING ---
+  function addDrawioIconButton(wrapperElement, rawCode) {
+    if (wrapperElement.dataset.drawioLinkAdded === 'true' && wrapperElement.dataset.drawioUrl) return; // Already processed
+    wrapperElement.dataset.drawioLinkAdded = 'true'; // Mark as processed early
+
+    console.log('Perplexity Powerups: Found a Draw.io block, creating icon button data.');
+    console.log('Draw.io Debug: Raw XML:', rawCode);
+
+    try {
+      // 1. Convert rawCode (UTF-8 string) to Uint8Array
+      const textEncoder = new TextEncoder();
+      const uint8Array = textEncoder.encode(rawCode);
+      console.log('Draw.io Debug: XML as Uint8Array:', uint8Array);
+
+      // 2. Compress using pako.deflateRaw
+      const compressedData = pako.deflateRaw(uint8Array);
+      console.log('Draw.io Debug: Compressed Uint8Array:', compressedData);
+
+      // 3. Convert compressed Uint8Array to a binary string
+      let binaryString = '';
+      for (let i = 0; i < compressedData.length; i++) {
+        binaryString += String.fromCharCode(compressedData[i]);
+      }
+      console.log('Draw.io Debug: Compressed data as binary string (first 100 chars):', binaryString.substring(0,100));
+
+      // 4. Base64 encode the binary string
+      const base64Encoded = btoa(binaryString);
+      console.log('Draw.io Debug: Base64 encoded (first 100 chars):', base64Encoded.substring(0,100));
+
+      // 5. URL-encode the Base64 string
+      const urlEncodedData = encodeURIComponent(base64Encoded);
+      console.log('Draw.io Debug: URL-encoded Base64 (first 100 chars):', urlEncodedData.substring(0,100));
+
+      // 6. Construct the final URL
+      const finalURL = `https://app.diagrams.net/#R${urlEncodedData}`;
+      wrapperElement.dataset.drawioUrl = finalURL;
+      console.log("Draw.io Debug: Final URL generated:", finalURL);
+
+    } catch (error) {
+      console.error('Perplexity Powerups: Error during Draw.io URL generation:', error);
+      // Clear any potentially partially set URL to prevent errors
+      delete wrapperElement.dataset.drawioUrl;
+    }
+  }
+
+  function addDrawioButtonToToolbar(toolbarElement, drawioUrl) {
+    if (toolbarElement.dataset.drawioButtonAdded === 'true') return;
+    toolbarElement.dataset.drawioButtonAdded = 'true';
+
+    const originalCopyButton = toolbarElement.querySelector('button[data-testid="copy-code-button"]') ||
+                              toolbarElement.querySelector('button svg path[d*="M7 7m0 2.667"]')?.closest('button');
+    if (!originalCopyButton) {
+      console.log('Perplexity Powerups: Could not find original copy button for Draw.io positioning');
+      return;
+    }
+
+    const drawioButton = document.createElement('button');
+    drawioButton.className = originalCopyButton.className || 'perplexity-enhanced-button';
+    drawioButton.type = 'button';
+    drawioButton.title = 'Open in diagrams.net Editor';
+    drawioButton.style.marginLeft = '8px';
+    drawioButton.dataset.perplexityPowerupsButton = 'drawio'; // Unique identifier
+
+    // Simple Draw.io-like icon (e.g., a generic diagram/flowchart shape)
+    // Using a pencil/edit icon as a placeholder, can be refined.
+    drawioButton.innerHTML = `
+      <div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+            <path d="m15 5 3 3"></path>
+          </svg>
+        </div>
+      </div>
+    `;
+
+    drawioButton.addEventListener('click', () => {
+      window.open(drawioUrl, '_blank');
+    });
+
+    console.log('Perplexity Powerups: Adding Draw.io button to toolbar');
+    originalCopyButton.parentNode.insertBefore(drawioButton, originalCopyButton.nextSibling);
+  }
+
+
   function addMermaidButtonToToolbar(toolbarElement, mermaidUrl) {
     if (toolbarElement.dataset.mermaidButtonAdded === 'true') return;
     toolbarElement.dataset.mermaidButtonAdded = 'true';
@@ -360,8 +446,13 @@
       if (!rawCode) return;
 
       const firstWord = rawCode.trim().split(/\s+/)[0].toLowerCase();
-
       const isMermaid = ['mermaid', 'graph', 'flowchart', 'sequencediagram', 'gantt', 'pie', 'classdiagram', 'erdiagram', 'statediagram'].includes(firstWord);
+
+      // Draw.io XML detection
+      // Typical Draw.io files start with <mxfile> or <diagram> or contain <mxGraphModel>
+      // We check for these tags. Since it's in a <code> block, it might be XML/HTML.
+      // Using includes() for simplicity, assuming the diagram code isn't excessively large.
+      const isDrawio = rawCode.includes('<mxGraphModel') || rawCode.includes('<diagram') || rawCode.includes('<mxfile');
 
       if (isMermaid) {
         addMermaidIconButton(wrapper, rawCode);
@@ -374,6 +465,20 @@
           const toolbar = copyButton.parentElement;
           console.log('Perplexity Powerups: Found toolbar for Mermaid button:', toolbar);
           addMermaidButtonToToolbar(toolbar, wrapper.dataset.mermaidUrl);
+        }
+      } else if (isDrawio) {
+        // Mark as processed to avoid redundant checks by observer
+        // wrapper.dataset.drawioLinkAdded = 'true'; // Already set in addDrawioIconButton
+        console.log('Perplexity Powerups: Found a Draw.io block, processing...');
+        addDrawioIconButton(wrapper, rawCode);
+
+        // Find the toolbar within this code block and add the Draw.io button
+        const copyButton = wrapper.querySelector('button[data-testid="copy-code-button"]');
+        console.log('Perplexity Powerups: Looking for copy button in Draw.io block:', copyButton);
+        if (copyButton && wrapper.dataset.drawioUrl && !copyButton.parentElement.dataset.drawioButtonAdded) {
+          const toolbar = copyButton.parentElement;
+          console.log('Perplexity Powerups: Found toolbar for Draw.io button:', toolbar);
+          addDrawioButtonToToolbar(toolbar, wrapper.dataset.drawioUrl);
         }
       }
     });

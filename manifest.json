@@ -13,6 +13,7 @@
       "matches": ["*://*.perplexity.ai/*"],
       "css": ["styles.css"],
       "js": [
+        "lib/pako_deflate.min.js",
         "lib/marked.min.js",
         "content_script.js"
       ]
