@@ -1,0 +1,29 @@
+{
+  "name": "perplexity-powerups-augment",
+  "version": "1.0.0",
+  "description": "A Chrome extension that provides essential powerups to enhance your Perplexity.ai experience",
+  "main": "content_script.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omairaslam/Perplexity-Powerups.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/omairaslam/Perplexity-Powerups/issues"
+  },
+  "homepage": "https://github.com/omairaslam/Perplexity-Powerups#readme",
+  "dependencies": {
+    "marked": "^16.0.0",
+    "mermaid": "^11.8.0",
+    "pako": "^2.1.0"
+  }
+}
