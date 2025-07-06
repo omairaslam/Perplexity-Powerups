@@ -45,7 +45,6 @@ This Chrome extension enhances your Perplexity.ai experience with three main fea
 - **`content_script.js`**: Main functionality with DOM manipulation and event handling
 - **`styles.css`**: Custom styling for enhanced UI elements
 - **`popup.html`**: Simple popup interface for extension status
-- **`lib/marked.min.js`**: Markdown processing library
 - **`icons/`**: Extension icons in multiple sizes (16px, 48px, 128px)
 
 ### Smart Detection Logic
@@ -58,31 +57,39 @@ This guide will walk you through installing and running the "Perplexity Enhanced
 **Prerequisites:**
 
 *   **Google Chrome:** Ensure you have Google Chrome browser installed.
-*   **Extension Files:** You'll need the folder containing all the extension files (`manifest.json`, `content_script.js`, `styles.css`, `lib/` folder, `icons/` folder, `popup.html`). Download these files from this repository (e.g., by clicking the green "Code" button and then "Download ZIP", then extracting the ZIP). Let's call the main folder `perplexity-powerups` (or `Perplexity-Powerups-main` if you download the ZIP).
+*   **Node.js and npm:** You'll need Node.js and its package manager, npm, to install the project's dependencies. You can download them from [https://nodejs.org/](https://nodejs.org/).
+*   **Extension Files:** You'll need the folder containing all the extension files (`manifest.json`, `content_script.js`, `styles.css`, `icons/` folder, `popup.html`). Download these files from this repository (e.g., by clicking the green "Code" button and then "Download ZIP", then extracting the ZIP). Let's call the main folder `perplexity-powerups` (or `Perplexity-Powerups-main` if you download the ZIP).
 
 **Installation Steps:**
 
-1.  **Open Chrome Extensions Page:**
+1.  **Install Dependencies:**
+    *   Open a terminal or command prompt and navigate to the project's root directory (`perplexity-powerups`).
+    *   Run the following command to install the necessary libraries:
+        ```bash
+        npm install
+        ```
+
+2.  **Open Chrome Extensions Page:**
     *   Open Google Chrome.
     *   In the address bar, type `chrome://extensions` and press Enter.
     *   Alternatively, you can click the three vertical dots (⋮) menu in the top-right corner of Chrome, go to **Extensions**, and then click **Manage Extensions**.
 
-2.  **Enable Developer Mode:**
+3.  **Enable Developer Mode:**
     *   On the Extensions page (`chrome://extensions`), look for a toggle switch labeled **Developer mode** in the top-right corner.
     *   Click this switch to turn Developer Mode **ON**. If it's already on, you'll see options like "Load unpacked," "Pack extension," etc.
-    *   *(If you need an image for this step, you can refer to the official Chrome documentation, as embedding images directly in this README via the tool might be complex).*
+    *   *(If you need an image for this step, you can refer to the official Chrome documentation, as embedding images directly in this README via the tool might be complex).)*
 
-3.  **Load the Unpacked Extension:**
+4.  **Load the Unpacked Extension:**
     *   Once Developer Mode is enabled, you will see new buttons appear. Click on the **Load unpacked** button.
     *   A file dialog will open. Navigate to the directory where you saved/extracted the extension files (e.g., the `perplexity-enhanced-extension` or `perplexity.powerup-main` folder).
     *   Select the **entire folder** and click **Select Folder** (or "Open" depending on your operating system). **Do not** select an individual file like `manifest.json`; select the folder that *contains* `manifest.json`.
 
-4.  **Verify Installation:**
+5.  **Verify Installation:**
     *   If the extension is loaded correctly, you should see a new card for "Perplexity Enhanced" (or the name defined in `manifest.json`) appear on your `chrome://extensions` page.
     *   It will show the extension's name, version, and description.
     *   You should also see its icon in your Chrome toolbar (usually to the right of the address bar). If you have many extensions, it might be hidden inside the "puzzle piece" (🧩) extensions menu icon. You can pin it to the toolbar from there if you wish.
 
-5.  **Test the Extension:**
+6.  **Test the Extension:**
     *   Open or refresh a tab with `https://www.perplexity.ai/`.
     *   **For Mermaid Enhancement:**
         *   Ask Perplexity a question that should return a Mermaid diagram (e.g., "Create a flowchart for making tea using Mermaid syntax" or "Draw a sequence diagram showing user login process").
@@ -92,7 +99,7 @@ This guide will walk you through installing and running the "Perplexity Enhanced
         *   After Perplexity generates a response with citations, hover over or focus on the response to make the action buttons appear.
         *   You should see TWO new icon buttons next to Perplexity's standard copy button:
             - **Green $ (Dollar) Icon**: Copy rich text WITHOUT citations
-            - **Amber 📋 (Clipboard) Icon**: Copy rich text WITH citations
+            - **Amber 📋 (Clipboard) Icon**: Copies rich text WITH citations
         *   **Test Clean Copy**: Click the green $ icon, then paste into a rich text editor (like Google Docs, Word, or an email composer). Verify that formatting is preserved and citations/source references are automatically removed.
         *   **Test Citation Copy**: Click the amber clipboard icon, then paste into a rich text editor. Verify that formatting is preserved AND citations/references are included.
     *   **For Copy to Google Doc Feature:**
@@ -175,11 +182,11 @@ For a comprehensive look at the project's evolution, challenges overcome, and te
 ```
 perplexity-powerups/
 ├── manifest.json          # Extension configuration
+├── package.json           # Project dependencies
 ├── content_script.js      # Main functionality (v16 - Dollar Icon & Citation Removal)
 ├── styles.css            # Custom styling for UI elements
 ├── popup.html            # Extension popup interface
-├── lib/
-│   └── marked.min.js     # Markdown processing library
+├── node_modules/          # Installed dependencies
 └── icons/
     ├── icon16.png        # 16x16 toolbar icon
     ├── icon48.png        # 48x48 management page icon
